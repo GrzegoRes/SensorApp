@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using SensorApp.API.BackgroundSubscribe;
 using MediatR;
 using System.Reflection;
+using SensorApp.API.Formater;
 
 namespace SensorApp.API
 {
@@ -36,7 +37,7 @@ namespace SensorApp.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SensorApp.API", Version = "v1" });
             });
-
+            services.AddMvc(options => options.OutputFormatters.Add(new CsvFormatter()));
             //Configure DataBase
             services.Configure<Settings>(
                 options =>
