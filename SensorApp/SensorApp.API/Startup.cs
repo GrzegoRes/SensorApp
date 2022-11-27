@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SensorApp.API.BackgroundSubscribe;
+using MediatR;
+using System.Reflection;
 
 namespace SensorApp.API
 {
@@ -58,7 +60,8 @@ namespace SensorApp.API
                 });
             services.AddHostedService<RabbitConnection>();
 
-
+            //Configure Mediator
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
         }
 
