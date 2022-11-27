@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SensorApp.API.BackgroundSubscribe;
 
 namespace SensorApp.API
 {
@@ -44,6 +45,21 @@ namespace SensorApp.API
 
             services.AddSingleton<IMongoSensorDBContext, MongoSensorDBContext>();
             services.AddSingleton<IRepositorySensor, RepositorySensor>();
+
+            //Configura BackGroundService
+            services.Configure<SettingsRB>(
+                options =>
+                {
+                    options.HostName = Configuration.GetSection("RabbitMQ:HostName").Value;
+                    options.Port = Configuration.GetSection("RabbitMQ:Port").Value;
+                    options.UserName = Configuration.GetSection("RabbitMQ:UserName").Value;
+                    options.Password = Configuration.GetSection("RabbitMQ:Password").Value;
+                    options.Queue = Configuration.GetSection("RabbitMQ:Queue").Value;
+                });
+            services.AddHostedService<RabbitConnection>();
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
