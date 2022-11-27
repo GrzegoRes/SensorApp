@@ -6,8 +6,8 @@ namespace SensorApp.API.Repository
 {
     public interface IRepositorySensor
     {
-        Task<IEnumerable<SensorDB>> GetAll();
-        Task Create(SensorDB sensor);
-        Task<IEnumerable<SensorDB>> GetAllById(int sensorI);
+        Task<IEnumerable<SensorDB>> findAll();
+        Task save(SensorDB sensor);
+        Task<IEnumerable<SensorDB>> findAllByName(string name);
     }
 }

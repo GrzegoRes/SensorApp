@@ -7,7 +7,7 @@ namespace SensorApp.API.Repository
     {
         private IMongoDatabase _db { get; set; }
         private MongoClient _mongoClient { get; set; }
-        public IClientSession Session { get; set; }
+        public IClientSession session { get; set; }
 
         public MongoSensorDBContext(IOptions<Settings> options)
         {

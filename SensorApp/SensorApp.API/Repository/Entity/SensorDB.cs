@@ -8,7 +8,7 @@ namespace SensorApp.API.Repository.Entity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string id { get; set; }
 
         public string name { get; set; }
 
