@@ -16,6 +16,7 @@ using SensorApp.API.BackgroundSubscribe;
 using MediatR;
 using System.Reflection;
 using SensorApp.API.Formater;
+using SensorApp.API.Hubs;
 
 namespace SensorApp.API
 {
@@ -31,6 +32,14 @@ namespace SensorApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //CORS
+            services.AddCors(o => o.AddPolicy("Access-Control-Allow-Origin", builder =>
+            {
+                builder.WithOrigins("https://localhost:5001")
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -64,11 +73,15 @@ namespace SensorApp.API
             //Configure Mediator
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //CORS
+            app.UseCors("Access-Control-Allow-Origin");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -85,6 +98,7 @@ namespace SensorApp.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<SendDataHub>("/stream");
             });
         }
     }

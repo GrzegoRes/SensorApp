@@ -58,7 +58,7 @@ namespace SensorApp.API.BackgroundSubscribe
 
             };
             //autoAck - kiedy zsotanie obsłuzona z kolejki
-            _channel.BasicConsume(queue: "sensor.02", autoAck: true, consumer: consumer);
+            _channel.BasicConsume(queue: "sensor.04", autoAck: true, consumer: consumer);
             return Task.CompletedTask;
         }
 
@@ -67,14 +67,15 @@ namespace SensorApp.API.BackgroundSubscribe
             Task.Run(() =>
             {
                 var chunks = message.Split("|");
-
+                //name|type|value|jm|data 
                 var sensor = new SensorDB();
-                if (chunks.Length == 4)
+                if (chunks.Length == 5)
                 {
                     sensor.name = chunks[0];
-                    sensor.value = Int32.Parse(chunks[2]);
                     sensor.type = chunks[1];
-                    sensor.dateGenerate = DateTime.Now;
+                    sensor.value = Int32.Parse(chunks[2]);
+                    sensor.union = chunks[3];
+                    sensor.dateGenerate = DateTime.Parse(chunks[4]);
                 }
 
                 _repository.save(sensor);

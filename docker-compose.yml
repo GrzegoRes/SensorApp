@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+ rabbitmq:
+  container_name: rabbitmq
+  image: rabbitmq:3.8-management-alpine
+  environment:
+  - RABBITMQ_DEFAULT_USER=guest
+  - RABBITMQ_DEFAULT_PASS=guest
+  ports:
+   - "5672:5672"
+   - "15672:15672"
+  networks:
+   - mynet
+
+ api:
+  container_name: api
+  restart: on-failure
+  image: sensor_app_api:latest
+  depends_on:
+  - rabbitmq
+  networks:
+   - mynet
+
+ #frontend:
+ # container_name: frontend
+ # image: sensor_app_frontend:latest
+ # networks:
+ #  - mynet
+ # ports:
+ # - "8080:80"
+
+# generator:
+#  container_name: generator
+#  restart: on-failure
+#  image: sensor_app_generator:latest
+#  depends_on:
+#  - rabbitmq
+#  networks:
+#   - mynet
+  
+
+networks:
+ mynet:

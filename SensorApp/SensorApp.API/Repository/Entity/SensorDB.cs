@@ -13,6 +13,7 @@ namespace SensorApp.API.Repository.Entity
         public string name { get; set; }
 
         public string type { get; set; }
+        public string union { get; set; }
 
         public int value { get; set; }
 

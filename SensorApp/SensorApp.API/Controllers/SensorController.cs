@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MediatR;
 using SensorApp.API.Querys.GetAllSensors;
 using System.Linq;
+using SensorApp.API.Querys.GetAllSensors.GetFilterSensor;
 using SensorApp.API.Querys.GetAverageandLastSensors;
 
 namespace SensorApp.API.Controllers
@@ -26,9 +27,26 @@ namespace SensorApp.API.Controllers
 
         [HttpGet]
         [Route("/GetAll")]
-        public async Task<ActionResult<List<SensorDB>>> GetAll()
+        public async Task<ActionResult<List<SensorWithSplitDate>>> GetAll()
         {
             var result = await _mediator.Send(new GetAllSensorQuery());
+
+            return await Task.FromResult(result.ToList());
+        }
+
+        [HttpPost]
+        [Route("/GetAll2")]
+        public async Task<ActionResult<List<SensorWithSplitDate>>> GetAll2([FromBody] Message mess)
+        {
+            var result = await _mediator.Send(new GetFilterSensorQuery()
+            {
+                Name= mess.Name,
+                Value_from = mess.Value_from,
+                Value_to = mess.Value_to,
+                Type = mess.Type,
+                SortBy = mess.SortBy,
+                TypSort = mess.TypSort
+            });
 
             return await Task.FromResult(result.ToList());
         }

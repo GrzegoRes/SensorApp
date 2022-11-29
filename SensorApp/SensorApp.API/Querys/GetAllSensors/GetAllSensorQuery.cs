@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace SensorApp.API.Querys.GetAllSensors
 {
     public class GetAllSensorQuery
-        : IRequest<IEnumerable<SensorDB>>
+        : IRequest<IEnumerable<SensorWithSplitDate>>
     {
 
     }
