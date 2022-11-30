@@ -29,7 +29,15 @@ namespace SensorApp.API.Controllers
         [Route("/GetAll")]
         public async Task<ActionResult<List<SensorWithSplitDate>>> GetAll()
         {
-            var result = await _mediator.Send(new GetAllSensorQuery());
+            var result = await _mediator.Send(new GetFilterSensorQuery()
+            {
+                Name = null,
+                Value_from = null,
+                Value_to = null,
+                Type = null,
+                SortBy = null,
+                TypSort = null
+            });
 
             return await Task.FromResult(result.ToList());
         }

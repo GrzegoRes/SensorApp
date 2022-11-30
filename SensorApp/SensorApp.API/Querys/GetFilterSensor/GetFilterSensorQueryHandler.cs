@@ -78,7 +78,7 @@ namespace SensorApp.API.Querys.GetFilterSensor
                 sensors = sensors.Reverse();
             }
 
-            return Task.FromResult(sensors);
+            return Task.FromResult(sensors.Take(50));
         }
     }
 }

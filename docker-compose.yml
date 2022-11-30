@@ -15,7 +15,8 @@ services:
  api:
   container_name: api
   restart: on-failure
-  image: sensor_app_api:latest
+  #image: sensor_app_api:latest
+  image: grzegorestyty/sensor_app:backend
   ports:
    - "1000:80"
   depends_on:
@@ -34,7 +35,8 @@ services:
 
  frontend:
   container_name: frontend
-  image: sensor_app_frontend:latest
+  #image: sensor_app_frontend:latest
+  image: grzegorestyty/sensor_app:frontend
   networks:
    - mynet
   ports:
@@ -43,7 +45,8 @@ services:
  generator:
   container_name: generator
   restart: on-failure
-  image: sensor_app_generator:latest
+  #image: sensor_app_generator:latest
+  image: grzegorestyty/sensor_app:generator
   depends_on:
   - rabbitmq
   networks:
