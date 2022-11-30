@@ -89,6 +89,7 @@ class Sensor:
     #     self._max_value = value
 
     def generate_value(self):
+        self._date = f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
         self._value = random.randrange(self._min_value, self._max_value + 1)
 
     def to_string(self):
