@@ -35,7 +35,7 @@ namespace SensorApp.API
             //CORS
             services.AddCors(o => o.AddPolicy("Access-Control-Allow-Origin", builder =>
             {
-                builder.WithOrigins("https://localhost:5001")
+                builder
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader();

@@ -16,28 +16,41 @@ services:
   container_name: api
   restart: on-failure
   image: sensor_app_api:latest
+  ports:
+   - "1000:80"
   depends_on:
   - rabbitmq
   networks:
    - mynet
 
- #frontend:
- # container_name: frontend
- # image: sensor_app_frontend:latest
- # networks:
- #  - mynet
- # ports:
- # - "8080:80"
+ mongoDB:
+   container_name: mongoDB
+   restart: on-failure
+   image: mongo:6.0.2
+   ports:
+   - "27017:27017"
+   networks:
+    - mynet
 
-# generator:
-#  container_name: generator
-#  restart: on-failure
-#  image: sensor_app_generator:latest
-#  depends_on:
-#  - rabbitmq
-#  networks:
-#   - mynet
+ frontend:
+  container_name: frontend
+  image: sensor_app_frontend:latest
+  networks:
+   - mynet
+  ports:
+  - "8080:8080"
+
+ generator:
+  container_name: generator
+  restart: on-failure
+  image: sensor_app_generator:latest
+  depends_on:
+  - rabbitmq
+  networks:
+   - mynet
   
 
 networks:
  mynet:
+  driver: bridge 
+  name: mynet
