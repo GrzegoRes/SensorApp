@@ -8,12 +8,6 @@
             :item= "item"
             />
     </div>
-    <p> ID: {{test}}</p>
-    <input type="text" placeholder="todo" v-model="test"/>
-    <button @click="update">TATA</button>
-    <p>
-        {{zmienna}}
-    </p>
   </div>
 </template>
 
@@ -41,14 +35,14 @@ export default {
   created: function ()
   {
     this.connection = new signalR.HubConnectionBuilder()
-        .withUrl("http://localhost:1000/stream", {
+        .withUrl("http://localhost:80/stream", {
           skipNegotiation: true,
           transport: signalR.HttpTransportType.WebSockets})
         .build();
   },
 
   async mounted() {
-    let result = await axios.get("http://localhost:1000/Last", { crossdomain: true });
+    let result = await axios.get("http://localhost:80/Last", { crossdomain: true });
     this.list= result.data;
 
     await this.connection.start();

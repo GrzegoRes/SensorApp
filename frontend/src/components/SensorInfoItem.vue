@@ -5,7 +5,7 @@
         <div>TYPE: {{item.type}}</div>
         <div>AVG: {{item.aveValueLastHundred.toFixed(2)}}</div>
         <div>LAST VALUE: {{item.lastValue}}</div>
-        <button @click="viewDetails(item.name)">Details</button>
+        <button @click="$router.push({name:'sensorId',params: { id: item.name }})">Details</button>
     </div>
 </template>
 

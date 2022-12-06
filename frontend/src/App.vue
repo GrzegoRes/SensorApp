@@ -1,40 +1,30 @@
-<script>
-import Home from "./components/mainPage.vue"
-import About from "./components/AboutView123.vue"
-import Chart from "./components/ChartView123.vue"
-import NotFound from "./components/AboutView123.vue"
-
-const routes = {
-  '/': Home,
-  '/about': About,
-  '/chart': Chart
-}
-
-export default {
-  data() {
-    return {
-      currentPath: window.location.hash
-    }
-  },
-  computed: {
-    currentView() {
-      return routes[this.currentPath.slice(1) || '/'] || NotFound
-    }
-  },
-
-  mounted() {
-    window.addEventListener('hashchange', () => {
-      this.currentPath = window.location.hash
-		})
-  }
-
-}
-</script>
-
 <template>
-  <h1>SENSOR APP</h1>
-  <a href="#/">Home</a> |
-  <a href="#/about">Tabele</a> |
-  <a href="#/chart">Chart</a> |
-  <component :is="currentView" />
+  <nav>
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link>
+  </nav>
+  <router-view/>
 </template>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 30px;
+}
+
+nav a.router-link-exact-active {
+  color: #3678cf;
+}
+</style>

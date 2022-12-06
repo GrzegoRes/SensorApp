@@ -1,6 +1,15 @@
 <template>
+  <div class = "contener">
+  <div class = "options">
   <div>
   <h1>Tabele</h1>
+  <div>
+    <button @click="downloadFile()">Save data</button>
+    Format:<select v-model="typeDonwload">
+            <option>CSV</option>
+            <option>JSON</option>
+            </select>
+  </div>
   <button @click="viewOption">Option Search</button>
   <div v-if="see">
     <p>Name: <input type="text" v-model="name123" placeholder = "Name"></p>
@@ -24,7 +33,15 @@
     <button @click="update">Search</button>
     <button @click="clear">Clear</button>
   </div>
-    
+  <p>Size page:<select @change="myCallback()" v-model="perPage" >
+        <option>10</option>
+        <option>25</option>
+        <option>50</option>
+        <option>100</option></select></p>
+  </div> 
+  </div> 
+  <div class="divTabl">
+  
   <table class= "table">
     <thead>
       <tr>
@@ -33,28 +50,30 @@
         <th>value</th>
         <th>unit</th>
         <th>dateGenerate</th>
-        <th>timeGenerate</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in list" :key="item.id" :item= "item">
+      <tr v-for="item in list_view" :key="item.id" :item= "item">
          <td>{{item.name}}</td>
          <td>{{item.type}}</td>
          <td>{{item.value}}</td>
          <td>{{item.unit}}</td>
-         <td>{{item.dateGenerate}}</td>
-         <td>{{item.timeGenerate}}</td>
+         <td>{{item.dateGenerate.replace('T',' ').replace('Z','')}}</td>
       </tr>
     </tbody>
   </table>
+      <pagination class="list-layout" v-model="page" :records="list.length" :per-page="perPage" @paginate="myCallback"/>
+  </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import exportFromJSON from "export-from-json";
+import Pagination from 'v-pagination-3';
+import MyPagination from './Pagination.vue'
 
 export default {
-
   data() {
     return{
       see: false,
@@ -67,18 +86,47 @@ export default {
       type: null,
       sortBy: null,
       test: "Test1",
-      list:[],
+      list: [],
+      list_view: [],
+      list3: [],
+      typeDonwload: "JSON",
+      page: 1,
+      perPage: 10,
     }
   },
-
+  options: {
+        template: MyPagination    
+    },   
+  components: {
+    'pagination': Pagination 
+  },
+  
   async mounted() {
-      let result = await axios.get("http://localhost:1000/GetAll");
+      let result = await axios.get("https://localhost:44335/GetAll");
       this.list= result.data;
+      this.myCallback();
     },
   methods: {
+    myCallback(){
+      this.list_view = this.list.slice((this.page-1)*this.perPage,this.page*this.perPage)
+    },
+
+    downloadFile() {
+      const data = this.list;
+      const fileName = "data";
+      
+      var exportType = exportFromJSON.types.json;
+      
+      if(this.typeDonwload === "CSV"){
+          exportType = exportFromJSON.types.csv;
+      }
+
+      if (data) exportFromJSON({ data, fileName, exportType });
+    },
+
     async update() 
     {
-        let link = "http://localhost:1000/GetAll2";
+        let link = "http://localhost:80/GetAll2";
         var list2 = await axios.post(link, 
         {
            name:this.name123,
@@ -92,6 +140,8 @@ export default {
            date_to: this.date_to
         })
         this.list = list2.data;
+        this.list3 = JSON.stringify(this.list);
+        this.myCallback();
     },
 
     clear() 
@@ -122,6 +172,7 @@ export default {
 </script>
 
 <style>
+  
   .table {
     border-collapse: collapse;
   }
@@ -131,6 +182,7 @@ export default {
   }
 
   .table th, td {
+  width: 150px;
   padding: 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -141,4 +193,10 @@ export default {
   .table tr:nth-child(even){
     background-color: rgb(240, 240, 240);
   }
+
+  .options{
+    width: 66%;
+    text-align: left;
+  }
+
 </style>
