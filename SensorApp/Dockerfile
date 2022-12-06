@@ -16,10 +16,10 @@ COPY --from=build-env /App/out .
 ADD docker-entry.sh /app/docker-entry.sh
 RUN chmod +x /app/docker-entry.sh
 
-ARG DB_CONNECTIONSTRING_D="mongodb://mongoDB:27017"
+ARG DB_CONNECTIONSTRING_D="mongodb://root:student@10.40.71.55:27017"
 ARG DB_NAMEDATEBASE_D="sensorTestv2"
 
-ARG RB_HOSTNAME_D="rabbitMQ"
+ARG RB_HOSTNAME_D="si_180046_rabbitmq"
 ARG RB_PORT_D=5672
 ARG RB_USERNAME_D="guest"
 ARG RB_PASSSWORD_D="guest"
