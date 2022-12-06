@@ -188,7 +188,7 @@ if __name__ == '__main__':
             password="guest"
         )
 
-        connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq', heartbeat=30))
+        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', heartbeat=30))
         channel = connection.channel()
         channel.queue_declare(queue='sensor.04')
         threads.append(MyThread(i, f'{"Thread-"}{sensor.get_type()}{i}', 999, sensor, 60 / sensor.get_per_min(),

@@ -29,7 +29,7 @@ namespace SensorApp.API.Querys.GetAverageandLastSensors
                 {
                     Name = d.Key.name,
                     Type = d.Key.type,
-                    AveValueLastHundred = d.TakeLast(3).Average(v => v.value),
+                    AveValueLastHundred = d.TakeLast(100).Average(v => v.value),
                     LastValue = d.Last().value
                 });
             return Task.FromResult(res);

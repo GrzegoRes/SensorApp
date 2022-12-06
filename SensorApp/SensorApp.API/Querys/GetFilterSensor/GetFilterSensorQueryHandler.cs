@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 using SensorApp.API.Querys.GetAllSensors;
 using SensorApp.API.Querys.GetAllSensors.GetFilterSensor;
 using SensorApp.API.Repository.Entity;
@@ -24,7 +25,6 @@ namespace SensorApp.API.Querys.GetFilterSensor
         {
             var sensors = _mediator.Send(new GetAllSensorQuery())
                 .Result.OrderByDescending(c => c.DateGenerate)
-                .ThenByDescending(c=> c.TimeGenerate)
                 .Where(c => 1 == 1);
 
             if (request.Name != null){
@@ -45,15 +45,14 @@ namespace SensorApp.API.Querys.GetFilterSensor
             {
                 sensors = sensors.Where(c => c.Type == request.Type);
             }
-
             if (request.Date_from != null)
             {
-                sensors = sensors.Where(c => DateTime.Parse(c.DateGenerate) > request.Date_from);
+                sensors = sensors.Where(c => c.DateGenerate > request.Date_from);
             }
 
             if (request.Date_to != null)
             {
-                sensors = sensors.Where(c => DateTime.Parse(c.DateGenerate) < request.Date_to);
+                sensors = sensors.Where(c => c.DateGenerate < request.Date_to);
             }
 
             switch (request.SortBy)
@@ -68,8 +67,7 @@ namespace SensorApp.API.Querys.GetFilterSensor
                     sensors = sensors.OrderByDescending(c => c.Type);
                     break;
                 default:
-                    sensors = sensors.OrderByDescending(c => c.DateGenerate)
-                        .ThenByDescending(c => c.TimeGenerate);
+                    sensors = sensors.OrderByDescending(c => c.DateGenerate);
                     break;
             }
 
@@ -78,7 +76,7 @@ namespace SensorApp.API.Querys.GetFilterSensor
                 sensors = sensors.Reverse();
             }
 
-            return Task.FromResult(sensors.Take(50));
+            return Task.FromResult(sensors);
         }
     }
 }

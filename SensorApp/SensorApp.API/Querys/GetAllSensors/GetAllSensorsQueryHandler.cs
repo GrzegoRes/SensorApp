@@ -27,8 +27,7 @@ namespace SensorApp.API.Querys.GetAllSensors
                     Type = ele.type,
                     Value = ele.value,
                     Unit =ele.union,
-                    DateGenerate = ele.dateGenerate.ToShortDateString().ToString(),
-                    TimeGenerate = ele.dateGenerate.ToLongTimeString()
+                    DateGenerate = ele.dateGenerate,
                 });
 
 

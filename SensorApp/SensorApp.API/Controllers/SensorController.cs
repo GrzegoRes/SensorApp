@@ -9,6 +9,7 @@ using SensorApp.API.Querys.GetAllSensors;
 using System.Linq;
 using SensorApp.API.Querys.GetAllSensors.GetFilterSensor;
 using SensorApp.API.Querys.GetAverageandLastSensors;
+using SensorApp.API.Querys.GetDatesAndValueSensors;
 
 namespace SensorApp.API.Controllers
 {
@@ -53,10 +54,24 @@ namespace SensorApp.API.Controllers
                 Value_to = mess.Value_to,
                 Type = mess.Type,
                 SortBy = mess.SortBy,
-                TypSort = mess.TypSort
+                TypSort = mess.TypSort,
+                Date_from = mess.Date_from,
+                Date_to = mess.Date_to
             });
 
             return await Task.FromResult(result.ToList());
+        }
+
+        [HttpPost]
+        [Route("/Chart")]
+        public async Task<ActionResult<SensorListDataAndValue>> GetChart([FromBody] RequestMessage mes2s)
+        {
+            var result = await _mediator.Send(new GetDatesAndValueSensorsQuery()
+            {
+                mess = mes2s
+            });
+
+            return await Task.FromResult(result);
         }
 
         [HttpGet]
