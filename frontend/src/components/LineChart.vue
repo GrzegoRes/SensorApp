@@ -74,7 +74,7 @@ export default {
   methods:{
     async update123() 
     {
-      let result = await axios.post("http://localhost:80/Chart",
+      let result = await axios.post("https://localhost:44335/Chart",
       {
         name:this.id,
         date_from: this.date_from2,

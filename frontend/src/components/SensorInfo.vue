@@ -35,14 +35,14 @@ export default {
   created: function ()
   {
     this.connection = new signalR.HubConnectionBuilder()
-        .withUrl("http://localhost:80/stream", {
+        .withUrl("https://localhost:44335/stream", {
           skipNegotiation: true,
           transport: signalR.HttpTransportType.WebSockets})
         .build();
   },
 
   async mounted() {
-    let result = await axios.get("http://localhost:80/Last", { crossdomain: true });
+    let result = await axios.get("https://localhost:44335/Last", { crossdomain: true });
     this.list= result.data;
 
     await this.connection.start();

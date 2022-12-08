@@ -126,7 +126,7 @@ export default {
 
     async update() 
     {
-        let link = "http://localhost:80/GetAll2";
+        let link = "https://localhost:44335/GetAll2";
         var list2 = await axios.post(link, 
         {
            name:this.name123,

@@ -24,15 +24,6 @@ services:
   networks:
    - mynet
 
- mongoDB:
-   container_name: mongoDB
-   restart: on-failure
-   image: mongo:6.0.2
-   ports:
-   - "27017:27017"
-   networks:
-    - mynet
-
  frontend:
   container_name: frontend
   #image: sensor_app_frontend:latest
